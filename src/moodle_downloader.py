@@ -1,6 +1,7 @@
 import json
 import re
 import logging
+import traceback
 
 import globals
 import course_retrieval
@@ -17,9 +18,10 @@ def list_resources(args):
             course = course_retrieval.get_course(course_name)
             if course is not None:
                 course.list_all_resources()
-    except:
+    except Exception as e:
         # TODO: add logging and log exception info (traceback) to a file
         print("Could not list resources due to an internal error.")
+        print(traceback.format_exc())
 
 
 def download(args):
@@ -38,11 +40,14 @@ def download(args):
             course = course_retrieval.get_course(course_name)
 
             resource_names = course.get_matching_resource_names(resource_pattern)
+            print(resource_names)
             for resource_name in resource_names:
-                course.download_resource(resource_name, destination_path, update_handling="replace")
-    except:
+                #course.download_resource(resource_name, destination_path, update_handling="replace")
+                continue
+    except Exception as e:
         # TODO: add logging and log exception info (traceback) to a file
         print("Could not download resources due to an internal error.")
+        print(traceback.format_exc())
 
 
 def download_via_config(req_course_name=".*", req_file_pattern=".*"):
@@ -68,6 +73,7 @@ def download_via_config(req_course_name=".*", req_file_pattern=".*"):
                 continue
 
             resource_names = course.get_matching_resource_names()
+            print(resource_names)
             for resource_name in resource_names:
                 if not re.match(req_file_pattern, resource_name):
                     continue
@@ -76,9 +82,10 @@ def download_via_config(req_course_name=".*", req_file_pattern=".*"):
                     destination = rule.get('destination', None)
                     update_handling = rule.get('update_handling', "replace")
                     if re.match(file_pattern, resource_name):
-                        course.download_resource(resource_name, destination, update_handling)
+                        #course.download_resource(resource_name, destination, update_handling)
                         break
         print("Done downloading via download config.")
-    except:
+    except Exception as e:
         # TODO: add logging and log exception info (traceback) to a file
         print("Could not download via config due to an internal error.")
+        print(traceback.format_exc())

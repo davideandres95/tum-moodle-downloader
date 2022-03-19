@@ -36,11 +36,17 @@ class Course:
 
         # Extract resources from the sections
         for section in sections:
+            week_name = section.find('h3', class_="sectionname").find('span').getText()
             section_resources = section.find_all('div', class_='activityinstance')
             for resource_div in section_resources:
-                resource = Resource(resource_div, is_recent=(section == latest_week_section))
+                resource = Resource(resource_div, is_recent=(section == latest_week_section), week= week_name)
                 resources[resource.name] = resource
 
+            section_resources = section.find_all('div', class_='contentwithoutlink')
+            for resource_div in section_resources:
+                for label in resource_div.find_all('a'):
+                    resource = Resource(label, is_recent=(section == latest_week_section), week = week_name)
+                    resources[resource.name+"-"+str(week_name)] = resource
         return resources
 
     def download_resource(self, resource_name, destination_dir, update_handling):
@@ -73,6 +79,7 @@ class Course:
             # TODO: check, check if resource is actually available for the user
             #  (see: https://github.com/NewLordVile/tum-moodle-downloader/issues/11)
             print(f"{name} ---- type: {resource.type}")
+            print(f"{name} ---- url: {resource.resource_url}")
 
     def list_latest_resources(self):
         print('Listing latest resources ...\n')

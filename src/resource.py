@@ -7,11 +7,13 @@ import globals
 
 
 class Resource:
-    def __init__(self, resource_div, is_recent):
+    def __init__(self, resource_div, is_recent, week=None):
+        #print(self.resource_div)
         self.resource_div = resource_div
         self.is_recent = is_recent
         self.name = Resource.get_resource_name(self.resource_div)
         self.resource_url = Resource.get_resource_url(self.resource_div)
+        self.week = week
         if self.resource_url is None:
             self.available = False
         else:
@@ -21,10 +23,22 @@ class Resource:
 
     @staticmethod
     def get_resource_name(resource_div):
-        return resource_div.find('span', class_='instancename').contents[0].strip()
+        instance_name = resource_div.find('span', class_='instancename')
+        if not instance_name:
+            resource_name = None
+        else:
+            resource_name = instance_name.contents[0].strip()
+        if resource_name is None:
+            try:
+                resource_name = resource_div.getText()
+            except:
+                return None
+        return resource_name
 
     @staticmethod
     def get_resource_url(resource_div):
+        if resource_div.name == "a":
+            return resource_div.get('href', None)
         resource_url_anchor = resource_div.find('a')
         if resource_url_anchor is None:
             return None
@@ -33,6 +47,8 @@ class Resource:
 
     @staticmethod
     def get_resource_type(resource_div):
+        if resource_div.name == 'a':
+            return 'label'
         group = resource_div.parent.parent.parent.parent['class']
         if group == ['activity', 'resource', 'modtype_resource', '']:
             return 'file'
@@ -40,6 +56,8 @@ class Resource:
             return 'folder'
         elif group == ['activity', 'assign', 'modtype_assign', '']:
             return 'assignment'
+        elif group == ['activity', 'label', 'modtype_label', '']:
+            return 'label'
         return 'other (e.g. quiz, forum, ...)'
 
     @staticmethod
@@ -58,6 +76,48 @@ class Resource:
         # - 'Content-Type'
 
         file_url = file_head.url
+        # Decode encoded URL (for more info see: https://www.urldecoder.io/python/) to get rid of "percent encoding"
+        # (as in https://www.moodle.tum.de/pluginfile.php/1702929/mod_resource/content/1/%C3%9Cbung%202_L%C3%B6sung.pdf)
+        decoded_file_url = urllib.parse.unquote(file_url)
+
+        # Extract file name from URL
+        filename = os.path.basename(decoded_file_url)
+        if '?forcedownload=1' in filename:
+            filename = filename.replace('?forcedownload=1', '')
+
+        destination_path = os.path.join(destination_dir, filename)
+
+        # Apply update handling in case the file already exists
+        file_exists = os.path.exists(destination_path)
+        if file_exists and update_handling != "replace":
+            if update_handling == "skip":
+                print(f"Skipping file {filename} because it already exists at {destination_path}")
+                return
+            if update_handling == "add":
+                # Create filename "filename (i).extension" and add it as a new version of the file
+                i = 1
+                (root, ext) = os.path.splitext(filename)
+                while file_exists:
+                    destination_path = os.path.join(destination_dir, root + ' (' + str(i) + ')' + ext)
+                    i += 1
+                    file_exists = os.path.exists(destination_path)
+
+        print(f'Downloading file {filename} ...')
+        file = globals.global_session.get(url)
+        print('Done downloading.')
+
+        print(f'Saving file {filename} ...')
+        with open(destination_path, 'wb') as f:
+            f.write(file.content)
+        print('Done. Saved to: ' + destination_path)
+
+    @staticmethod
+    def _download_label(url, destination_dir, update_handling):
+        file_head = globals.global_session.head(url, allow_redirects=True)
+        file_url = file_head.url
+        if ".pdf" not in file_url:
+            print("skipping label not pdf")
+            return
         # Decode encoded URL (for more info see: https://www.urldecoder.io/python/) to get rid of "percent encoding"
         # (as in https://www.moodle.tum.de/pluginfile.php/1702929/mod_resource/content/1/%C3%9Cbung%202_L%C3%B6sung.pdf)
         decoded_file_url = urllib.parse.unquote(file_url)
@@ -140,5 +200,7 @@ class Resource:
             Resource._download_folder(self.resource_url, destination_dir, update_handling)
         elif self.type == 'assignment':
             Resource._download_assignment(self.resource_url, destination_dir, update_handling)
+        elif self.type == 'label':
+            Resource._download_label(self.resource_url, destination_dir, update_handling)
         else:
             print(f"Cannot download resource '{self.name}': type '{self.type}' is not supported!")
