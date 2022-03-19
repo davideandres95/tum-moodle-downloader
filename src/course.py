@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 
 import globals
-from resource import Resource
+from src.resource import Resource
 
 
 class Course:
@@ -13,11 +13,17 @@ class Course:
         course_page = globals.global_session.get(course_url).content
         self.soup = BeautifulSoup(course_page, 'html.parser')
 
-        self.resources = self._extract_resources()
+        self.resources = {}
+        self._extract_resources()
         self.latest_resources = [resource for resource in self.resources.values() if resource.is_recent]
 
+    def _add_resource(self, resource, week):
+        if resource.name in self.resources:
+            self.resources[resource.name+" "+week] = resource
+        else:
+            self.resources[resource.name] = resource
+
     def _extract_resources(self):
-        resources = {}
         sections = []
         latest_week_section = None
 
@@ -40,14 +46,13 @@ class Course:
             section_resources = section.find_all('div', class_='activityinstance')
             for resource_div in section_resources:
                 resource = Resource(resource_div, is_recent=(section == latest_week_section), week= week_name)
-                resources[resource.name] = resource
+                self._add_resource(resource, week_name)
 
             section_resources = section.find_all('div', class_='contentwithoutlink')
             for resource_div in section_resources:
                 for label in resource_div.find_all('a'):
                     resource = Resource(label, is_recent=(section == latest_week_section), week = week_name)
-                    resources[resource.name+"-"+str(week_name)] = resource
-        return resources
+                    self._add_resource(resource, week_name)
 
     def download_resource(self, resource_name, destination_dir, update_handling):
         """
@@ -79,7 +84,6 @@ class Course:
             # TODO: check, check if resource is actually available for the user
             #  (see: https://github.com/NewLordVile/tum-moodle-downloader/issues/11)
             print(f"{name} ---- type: {resource.type}")
-            print(f"{name} ---- url: {resource.resource_url}")
 
     def list_latest_resources(self):
         print('Listing latest resources ...\n')

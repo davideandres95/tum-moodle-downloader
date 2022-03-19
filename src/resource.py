@@ -8,12 +8,11 @@ import globals
 
 class Resource:
     def __init__(self, resource_div, is_recent, week=None):
-        #print(self.resource_div)
         self.resource_div = resource_div
         self.is_recent = is_recent
-        self.name = Resource.get_resource_name(self.resource_div)
-        self.resource_url = Resource.get_resource_url(self.resource_div)
         self.week = week
+        self.name = Resource.get_resource_name(self.resource_div, self.week)
+        self.resource_url = Resource.get_resource_url(self.resource_div)
         if self.resource_url is None:
             self.available = False
         else:
@@ -22,7 +21,7 @@ class Resource:
         self.type = self.get_resource_type(self.resource_div)
 
     @staticmethod
-    def get_resource_name(resource_div):
+    def get_resource_name(resource_div, week):
         instance_name = resource_div.find('span', class_='instancename')
         if not instance_name:
             resource_name = None
@@ -30,7 +29,7 @@ class Resource:
             resource_name = instance_name.contents[0].strip()
         if resource_name is None:
             try:
-                resource_name = resource_div.getText()
+                resource_name = resource_div.getText()+" "+week
             except:
                 return None
         return resource_name
@@ -121,6 +120,8 @@ class Resource:
         # Decode encoded URL (for more info see: https://www.urldecoder.io/python/) to get rid of "percent encoding"
         # (as in https://www.moodle.tum.de/pluginfile.php/1702929/mod_resource/content/1/%C3%9Cbung%202_L%C3%B6sung.pdf)
         decoded_file_url = urllib.parse.unquote(file_url)
+        if '?' in decoded_file_url:
+            decoded_file_url = decoded_file_url[:decoded_file_url.find('?')]
 
         # Extract file name from URL
         filename = os.path.basename(decoded_file_url)

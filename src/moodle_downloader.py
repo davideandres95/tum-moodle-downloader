@@ -42,8 +42,7 @@ def download(args):
             resource_names = course.get_matching_resource_names(resource_pattern)
             print(resource_names)
             for resource_name in resource_names:
-                #course.download_resource(resource_name, destination_path, update_handling="replace")
-                continue
+                course.download_resource(resource_name, destination_path, update_handling="replace")
     except Exception as e:
         # TODO: add logging and log exception info (traceback) to a file
         print("Could not download resources due to an internal error.")
@@ -82,7 +81,7 @@ def download_via_config(req_course_name=".*", req_file_pattern=".*"):
                     destination = rule.get('destination', None)
                     update_handling = rule.get('update_handling', "replace")
                     if re.match(file_pattern, resource_name):
-                        #course.download_resource(resource_name, destination, update_handling)
+                        course.download_resource(resource_name, destination, update_handling)
                         break
         print("Done downloading via download config.")
     except Exception as e:
