@@ -1,58 +1,25 @@
 [
   {
-    "course_name": "Information Theory",
-    "semester": "WS21_22",
+    "course_name": "Name of a course",
+    "semester": "WSXX_YY",
     "rules": [
       {
-        "file_pattern": "Notes",
-        "destination": "./Information_Theory",
-	"update_handling": "skip"
+        "file_pattern": "Hausaufgabe.*",
+        "destination": "C:\\Users\\yourusername\\Documents\\Uni\\CourseName\\Homework"
       },
       {
-        "file_pattern": "Tutorial.*",
-        "destination": "./Information_Theory",
-	"update_handling": "skip"
-      },
-      {
-        "file_pattern": "Solution.*",
-        "destination": "./Information_Theory",
-	"update_handling": "skip"
-      },
-      {
-        "file_pattern": "Old Exams",
-        "destination": "./Information_Theory",
-	"update_handling": "skip"
-      },
-      {
-        "file_pattern": "Old Midterms",
-        "destination": "./Information_Theory",
-	"update_handling": "skip"
+        "file_pattern": ".*",
+        "destination": "C:\\Users\\yourusername\\Documents\\Uni\\CourseName\\"
       }
     ]
   },
   {
-    "course_name": "Channel Coding",
-    "semester": "WS21_22",
+    "course_name": "Name of another course",
+    "semester": "SSXX",
     "rules": [
       {
-        "file_pattern": "Lecture Slides",
-        "destination": "./Channel Coding",
-	"update_handling": "skip"
-      },
-      {
-        "file_pattern": "Lecture Script",
-        "destination": "./Channel Coding",
-	"update_handling": "skip"
-      },
-      {
-        "file_pattern": "Exams of previous semesters",
-        "destination": "./Channel Coding",
-	"update_handling": "skip"
-      },
-      {
-        "file_pattern": "*.",
-        "destination": "./Channel Coding",
-	"update_handling": "skip"
+        "file_pattern": "(Übungsblatt.*|Musterlösung Blatt.*)",
+        "destination": "C:\\Users\\yourusername\\Documents\\Uni\\SomeCourseName\\Exercises\\"
       }
     ]
   }
