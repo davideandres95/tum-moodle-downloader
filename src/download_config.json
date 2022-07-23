@@ -1,25 +1,186 @@
 [
   {
-    "course_name": "Name of a course",
-    "semester": "WSXX_YY",
+    "course_name": "Analysis, Modeling and Simulation of Communication Networks",
+    "semester": "SS22",
     "rules": [
       {
-        "file_pattern": "Hausaufgabe.*",
-        "destination": "C:\\Users\\yourusername\\Documents\\Uni\\CourseName\\Homework"
+        "file_pattern": "[l,L]aw.*",
+        "destination": "/home/ddeandres/Documents/AMS",
+    	"update_handling": "skip"
       },
       {
-        "file_pattern": ".*",
-        "destination": "C:\\Users\\yourusername\\Documents\\Uni\\CourseName\\"
+        "file_pattern": "DES - Part [0-9]",
+        "destination": "/home/ddeandres/Documents/AMS/DES",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": ".*NS3.*",
+        "destination": "/home/ddeandres/Documents/AMS/NS3",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": ".*NS-3.*",
+        "destination": "/home/ddeandres/Documents/AMS/NS3",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "DES - Part [0-9] - Sample solution",
+        "destination": "/home/ddeandres/Documents/AMS/DES",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Exersice.*",
+        "destination": "/home/ddeandres/Documents/AMS/DES",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "[w,W]ehrle.*",
+        "destination": "/home/ddeandres/Documents/AMS",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "[b,B]on.*",
+        "destination": "/home/ddeandres/Documents/AMS",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "[0-9]*[a-z]*_AMS.*",
+        "destination": "/home/ddeandres/Documents/AMS",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Slides Chapter [0-9][a-z]*.*",
+        "destination": "/home/ddeandres/Documents/AMS",
+    	"update_handling": "skip"
       }
     ]
   },
   {
-    "course_name": "Name of another course",
-    "semester": "SSXX",
+    "course_name": "Coding Theory for Storage and Networks",
+    "semester": "SS22",
     "rules": [
       {
-        "file_pattern": "(Übungsblatt.*|Musterlösung Blatt.*)",
-        "destination": "C:\\Users\\yourusername\\Documents\\Uni\\SomeCourseName\\Exercises\\"
+        "file_pattern": "SSP",
+        "destination": "/home/ddeandres/Documents/CTSN",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Problem [S,s]heet.*",
+        "destination": "/home/ddeandres/Documents/CTSN",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Notes.*",
+        "destination": "/home/ddeandres/Documents/CTSN",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Lab [0-9]:.*",
+        "destination": "/home/ddeandres/Documents/CTSN",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Slides.*",
+        "destination": "/home/ddeandres/Documents/CTSN",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "IRS.sage",
+        "destination": "/home/ddeandres/Documents/CTSN",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": ".*.ipynb",
+        "destination": "/home/ddeandres/Documents/CTSN",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Solution.*",
+        "destination": "/home/ddeandres/Documents/CTSN",
+        "update_handling": "skip"
+      }
+    ]
+  },
+  {
+    "course_name": "Statistical Signal",
+    "semester": "SS22",
+    "rules": [
+      {
+        "file_pattern": "SSP",
+        "destination": "/home/ddeandres/Documents/Statistical_Signal_Processing",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Tutorial.*",
+        "destination": "/home/ddeandres/Documents/Statistical_Signal_Processing",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Solution.*",
+        "destination": "/home/ddeandres/Documents/Statistical_Signal_Processing",
+	    "update_handling": "skip"
+      }
+    ]
+  },
+  {
+    "course_name": "Information Theory",
+    "semester": "WS21_22",
+    "rules": [
+      {
+        "file_pattern": "Notes",
+        "destination": "/home/ddeandres/Documents/Information_Theory",
+	    "update_handling": "skip"
+      },
+      {
+        "file_pattern": "Tutorial.*",
+        "destination": "/home/ddeandres/Documents/Information_Theory",
+	    "update_handling": "skip"
+      },
+      {
+        "file_pattern": "Solution.*",
+        "destination": "/home/ddeandres/Documents/Information_Theory",
+	    "update_handling": "skip"
+      },
+      {
+        "file_pattern": "Old Exams",
+        "destination": "/home/ddeandres/Documents/Information_Theory",
+	    "update_handling": "skip"
+      },
+      {
+        "file_pattern": "Old Midterms",
+        "destination": "/home/ddeandres/Documents/Information_Theory",
+	    "update_handling": "skip"
+      }
+    ]
+  },
+  {
+    "course_name": "Channel Coding",
+    "semester": "WS21_22",
+    "rules": [
+      {
+        "file_pattern": "Lecture Slides",
+        "destination": "/home/ddeandres/Documents/Channel Coding",
+	    "update_handling": "skip"
+      },
+      {
+        "file_pattern": "Lecture Script",
+        "destination": "/home/ddeandres/Documents/Channel Coding",
+    	"update_handling": "skip"
+      },
+      {
+        "file_pattern": "Exams of previous semesters",
+        "destination": "/home/ddeandres/Documents/Channel Coding",
+	    "update_handling": "skip"
+      },
+      {
+        "file_pattern": "Problem.*",
+        "destination": "/home/ddeandres/Documents/Channel Coding",
+	    "update_handling": "skip"
+      },
+      {
+        "file_pattern": "Solution.*",
+        "destination": "/home/ddeandres/Documents/Channel Coding",
+	    "update_handling": "skip"
       }
     ]
   }

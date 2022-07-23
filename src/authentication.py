@@ -96,6 +96,17 @@ def start_session(username, password) -> requests.Session or None:
         data=accept_data
     )
 
+    #soup = BeautifulSoup(response.text, 'html.parser')
+    #action_url, sso_data = _find_sso_data(soup)
+    #try:
+    #    response = session.post(
+    #        f'{action_url}',
+    #        headers=headers,
+    #        data=sso_data
+    #    )
+    #except requests.exceptions.MissingSchema:
+    #    print('Error while authenticating. Check credentials.')
+    #    return None
     if response.status_code == 200:
         print("Login OK")
         return session
